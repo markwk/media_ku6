@@ -2,13 +2,13 @@
 
 /**
  * @file
- *  This is an youku provider include file for Embedded Media Video.
+ *  This is an ku6 provider include file for Embedded Media Video.
  *  Use this as a base for creating new provider files.
  *
  *  When using this, first make the following global replacements:
- *    * Replace YOUKU with the name of your provider in all caps.
- *    * Replace youku with the name of your provider in all lower case.
- *    * Replace Youku with the name (to be translated) of your provider in
+ *    * Replace ku6 with the name of your provider in all caps.
+ *    * Replace ku6 with the name of your provider in all lower case.
+ *    * Replace ku6 with the name (to be translated) of your provider in
  *        uppercase.
  *
  *  You then need to go through each function and modify according to the
@@ -55,7 +55,7 @@ function emvideo_ku6_info() {
   return array(
     'provider' => 'ku6',
     'name' => t('Ku6'),
-    'url' => EMVIDEO_YOUKU_MAIN_URL,
+    'url' => EMVIDEO_KU6_MAIN_URL,
     'settings_description' => t('These settings specifically affect videos displayed from !ku6.', array('!ku6' => l(t('Ku6.com'), EMVIDEO_KU6_MAIN_URL))),
     'supported_features' => $features,
   );
@@ -66,14 +66,14 @@ function emvideo_ku6_info() {
  *  This should return a subform to be added to the emvideo_settings() admin
  *  settings page.
  *
- *  Note that a form field set will already be provided at $form['youku'],
+ *  Note that a form field set will already be provided at $form['ku6'],
  *  so if you want specific provider settings within that field set, you should
  *  add the elements to that form array element.
  */
-function emvideo_youku_settings() {
+function emvideo_ku6_settings() {
   // We'll add a field set of player options here. You may add other options
   // to this element, or remove the field set entirely if there are no
-  // user-configurable options allowed by the youku provider.
+  // user-configurable options allowed by the ku6 provider.
   $form['ku6']['player_options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embedded video player options'),
@@ -81,11 +81,11 @@ function emvideo_youku_settings() {
     '#collapsed' => TRUE,
   );
   // This is an option to set the video to full screen. You should remove this
-  // option if it is not provided by the youku provider.
-  $form['youku']['player_options']['emvideo_youku_full_screen'] = array(
+  // option if it is not provided by the ku6 provider.
+  $form['ku6']['player_options']['emvideo_ku6_full_screen'] = array(
     '#type' => 'checkbox',
     '#title' => t('Allow fullscreen'),
-    '#default_value' => variable_get('emvideo_youku_full_screen', 1),
+    '#default_value' => variable_get('emvideo_ku6_full_screen', 1),
     '#description' => t('Allow users to view video using the entire computer screen.'),
   );
 
@@ -111,10 +111,10 @@ function emvideo_youku_settings() {
  *    array. Otherwise, the calling function will handle testing the embed code
  *    against each regex string in the returned array.
  */
-function emvideo_youku_extract($parse = '') {
+function emvideo_ku6_extract($parse = '') {
   return array(
-   '@v\.youku\.com/v_show/id_([^"\&/]+)\.html@i',
-   '@player\.youku\.com/player\.php/sid/([^"\&/]+)@i',
+   '@v\.ku6\.com/show/([^"\&/]+)\.html@i',
+   '@player\.ku6\.com/refer\.php/sid/([^"\&/]+)@i',
   );
 }
 
@@ -127,21 +127,27 @@ function emvideo_youku_extract($parse = '') {
  *  @return
  *    A string containing the URL to view the video at the original provider's site.
  */
-function emvideo_youku_embedded_link($video_code) {
+function emvideo_ku6_embedded_link($video_code) {
   return 'http://v.ku6.com/show/'. $video_code . '.html';
 }
 
 /**
- * The embedded flash displaying the youku video.
+ * The embedded flash displaying the ku6 video.
  */
-function theme_emvideo_youku_flash($item, $width, $height, $autoplay) {
+function theme_emvideo_ku6_flash($item, $width, $height, $autoplay) {
   $output = '';
   if ($item['embed']) {
     $autoplay = $autoplay ? 'true' : 'false';
-    $fullscreen = variable_get('emvideo_youku_full_screen', 1) ? 'true' : 'false';
-    $output .= '<embed src="http://player.ku6.com/refer/'. $item['value'] .'/.v.swf" type="application/x-shockwave-flash" allowFullScreen="'. $fullscreen .'"  width="'. $width .'" height="'. $height .'"align="middle"></embed>';
+    $fullscreen = variable_get('emvideo_ku6_full_screen', 1) ? 'true' : 'false';
+    $output = '<object width="'. $width .'" height="'. $height .'">';
+    $output .= '<param name="movie" value="http://www.youku.com/v/'. $item['value'] .'">';
+    $output .= '<param name="quality" value="best" />';
+    $output .= '<param name="wmode" value="transparent" />';
+    $output .= '<param name="allowFullScreen" value="'. $fullscreen .'" />';
+    $output .= '<param name="scale" value="showAll" />';
+    $output .= '<param name="FlashVars" value="autoplay='. $autoplay .'" />';    
+    $output .= '<embed src="http://player.ku6.com/refer/'. $item['value'] .'/v.swf" quality="high" type="application/x-shockwave-flash" allowFullScreen="'. $fullscreen .'"  width="'. $width .'" height="'. $height .'"align="middle"></embed>';  }
     $output .= '</object>';
-  }
   return $output;
 }
 
@@ -163,7 +169,7 @@ function theme_emvideo_youku_flash($item, $width, $height, $autoplay) {
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_youku_video($embed, $width, $height, $field, $item, $node, $autoplay) {
+function emvideo_ku6_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_ku6_flash', $item, $width, $height, $autoplay);
   return $output;
 }
@@ -186,7 +192,7 @@ function emvideo_youku_video($embed, $width, $height, $field, $item, $node, $aut
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_youku_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emvideo_ku6_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_ku6_flash', $item, $width, $height, $autoplay);
   return $output;
 }
@@ -195,7 +201,7 @@ function emvideo_youku_preview($embed, $width, $height, $field, $item, &$node, $
  *  Implementation of hook_emfield_subtheme.
  *  This returns any theme functions defined by this provider.
  */
-function emvideo_youku_emfield_subtheme() {
+function emvideo_ku6_emfield_subtheme() {
     $themes = array(
         'emvideo_ku6_flash'  => array(
             'arguments' => array('item' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
