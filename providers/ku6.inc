@@ -114,7 +114,7 @@ function emvideo_ku6_settings() {
 function emvideo_ku6_extract($parse = '') {
   return array(
    '@v\.ku6\.com/show/([^"\&/]+)\.html@i',
-   '@player\.ku6\.com/refer\.php/sid/([^"\&/]+)@i',
+   '@player\.ku6\.com/refer/([^"\&/]+)\/v.swf@i',
   );
 }
 
