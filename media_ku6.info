@@ -1,0 +1,9 @@
+name = Media: Ku6
+description = Embedded Audio Field provider file for ku6.com.
+core = 6.x
+dependencies[] = emvideo
+package = Media
+version = "6.x-1.0"
+core = "6.x"
+project = "media_ku6"
+
