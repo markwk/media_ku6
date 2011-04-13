@@ -115,6 +115,7 @@ function emvideo_ku6_extract($parse = '') {
   return array(
    '@v\.ku6\.com/show/([^"\&/]+)\.html@i',
    '@player\.ku6\.com/refer/([^"\&/]+)\/v.swf@i',
+   '@v.ku6.com/special/show(?:_\d+)?/([^"\&/]+).html@i'
   );
 }
 
@@ -132,7 +133,7 @@ function emvideo_ku6_embedded_link($video_code) {
 }
 
 /**
- * The embedded flash displaying the ku6 video.
+ * The embedded flash displaying the ku6 video. 
  */
 function theme_emvideo_ku6_flash($item, $width, $height, $autoplay) {
   $output = '';
