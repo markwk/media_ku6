@@ -4,5 +4,5 @@
  * Implementation of hook_uninstall().
  */
 function media_ku6_uninstall() {
-	variable__del('emvideo_ku6_full_screen'),
+	variable_del('emvideo_ku6_full_screen');
 }
