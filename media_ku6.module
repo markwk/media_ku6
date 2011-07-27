@@ -1,12 +1,15 @@
 <?php
 
 /**
- *  @file
- *  Embedded Video Field provider file for ku6.com.
+ * @file
+ * Embedded Video Field provider file for ku6.com.
  */
 
+/**
+ * Implements hook_emfield_providers().
+ */
 function media_ku6_emfield_providers($module, $provider = NULL) {
   if ($module == 'emvideo') {
-    return drupal_system_listing("$provider\.inc$", drupal_get_path('module', 'media_ku6') ."/providers", 'name', 0);
+    return drupal_system_listing("$provider\.inc$", drupal_get_path('module', 'media_ku6') . '/providers', 'name', 0);
   }
 }
