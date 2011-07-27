@@ -47,6 +47,7 @@ define('EMVIDEO_KU6_DATA_VERSION', 1);
  *      the 'Feature' column will give the name of the feature, 'Supported'
  *      will be Yes or No, and 'Notes' will give an optional description or
  *      caveats to the feature.
+ * function emvideo_ku6_info() {
  */
 function emvideo_ku6_info() {
   $features = array(
@@ -70,7 +71,7 @@ function emvideo_ku6_info() {
  *  so if you want specific provider settings within that field set, you should
  *  add the elements to that form array element.
  */
-function emvideo_ku6_settings() {
+function media_ku6_ku6_settings() {
   // We'll add a field set of player options here. You may add other options
   // to this element, or remove the field set entirely if there are no
   // user-configurable options allowed by the ku6 provider.
@@ -111,7 +112,7 @@ function emvideo_ku6_settings() {
  *    array. Otherwise, the calling function will handle testing the embed code
  *    against each regex string in the returned array.
  */
-function emvideo_ku6_extract($parse = '') {
+function media_ku6_ku6_extract($parse = '') {
   return array(
    '@v\.ku6\.com/show/([^"\&/]+)\.html@i',
    '@player\.ku6\.com/refer/([^"\&/]+)\/v.swf@i',
@@ -128,14 +129,14 @@ function emvideo_ku6_extract($parse = '') {
  *  @return
  *    A string containing the URL to view the video at the original provider's site.
  */
-function emvideo_ku6_embedded_link($video_code) {
+function media_ku6_ku6_embedded_link($video_code) {
   return 'http://v.ku6.com/show/'. $video_code . '.html';
 }
 
 /**
  * The embedded flash displaying the ku6 video. 
  */
-function theme_emvideo_ku6_flash($item, $width, $height, $autoplay) {
+function theme_media_ku6_ku6_flash($item, $width, $height, $autoplay) {
   $output = '';
   if ($item['embed']) {
     $autoplay = $autoplay ? 'true' : 'false';
@@ -170,7 +171,7 @@ function theme_emvideo_ku6_flash($item, $width, $height, $autoplay) {
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_ku6_video($embed, $width, $height, $field, $item, $node, $autoplay) {
+function media_ku6_ku6_video($embed, $width, $height, $field, $item, $node, $autoplay) {
   $output = theme('emvideo_ku6_flash', $item, $width, $height, $autoplay);
   return $output;
 }
@@ -193,7 +194,7 @@ function emvideo_ku6_video($embed, $width, $height, $field, $item, $node, $autop
  *  @return
  *    The html of the embedded video.
  */
-function emvideo_ku6_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function media_ku6_ku6_preview($embed, $width, $height, $field, $item, &$node, $autoplay) {
   $output = theme('emvideo_ku6_flash', $item, $width, $height, $autoplay);
   return $output;
 }
@@ -202,7 +203,7 @@ function emvideo_ku6_preview($embed, $width, $height, $field, $item, &$node, $au
  *  Implementation of hook_emfield_subtheme.
  *  This returns any theme functions defined by this provider.
  */
-function emvideo_ku6_emfield_subtheme() {
+function media_ku6_ku6_emfield_subtheme() {
     $themes = array(
         'emvideo_ku6_flash'  => array(
             'arguments' => array('item' => NULL, 'width' => NULL, 'height' => NULL, 'autoplay' => NULL),
